@@ -1,7 +1,8 @@
 # Dependency directories
 node_modules/
 
+# Build directories
+functions/
+
 # General
 .DS_Store
-
-functions
