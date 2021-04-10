@@ -1,29 +1,20 @@
 const express = require("express");
-const bodyParser = require("body-parser");
-const { graphqlHTTP } = require("express-graphql");
 const serverless = require("serverless-http");
-const { GraphQLSchema, GraphQLObjectType, GraphQLString } = require("graphql");
+const {graphqlHTTP} = require("express-graphql");
+const bodyParser = require("body-parser");
 
-const schema = new GraphQLSchema({
-  query: new GraphQLObjectType({
-    name: "HelloWorld",
-    fields: () => ({
-      message: {
-        type: GraphQLString,
-        resolve: () => "Hello World",
-      },
-    }),
-  }),
-});
+const schema = require('../graphql/schema')
+const resolvers = require('../graphql/resolvers')
 
-const app = express();
+const app = express()
 
 app.use(bodyParser.json());
 app.use(
   "/",
   graphqlHTTP({
-    schema: schema,
-    graphiql: true,
+    schema,
+    rootValue: resolvers,
+    graphiql: true
   })
 );
 
